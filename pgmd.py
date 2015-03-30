@@ -1,5 +1,6 @@
 import psycopg2
 import os
+import shutil
 from ConfigParser import SafeConfigParser
 
 parser = SafeConfigParser()
@@ -49,9 +50,17 @@ cur = conn.cursor()
 cur.execute(script_routines, (excludes,))
 routines = cur.fetchall()
 
-# create output directory
+# output directory
 
-if not os.path.exists('output'):
+if os.path.exists('output'):
+	for the_file in os.listdir('output'):
+	    file_path = os.path.join('output', the_file)
+	    try:
+	        if os.path.isfile(file_path):
+	            os.unlink(file_path)
+	    except Exception, e:
+	        print e
+else:
 	os.makedirs('output')
 
 # create index file

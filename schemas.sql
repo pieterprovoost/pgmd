@@ -1,4 +1,5 @@
-select distinct(t.table_schema)
-from information_schema.tables t
-where t.table_schema not in %s
-order by t.table_schema;
+select n.nspname
+from pg_catalog.pg_namespace n
+where n.nspname not in %s
+and n.nspname not like '%%_temp_%%'
+order by n.nspname;
