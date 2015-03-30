@@ -30,6 +30,7 @@ script_schemas = open("schemas.sql", "r").read()
 script_tables = open("tables.sql", "r").read()
 script_views = open("views.sql", "r").read()
 script_routines = open("routines.sql", "r").read()
+script_columns = open("columns.sql", "r").read()
 
 # schemas
 
@@ -54,6 +55,12 @@ views = cur.fetchall()
 cur = conn.cursor()
 cur.execute(script_routines, (excludes,))
 routines = cur.fetchall()
+
+# columns
+
+cur = conn.cursor()
+cur.execute(script_columns, (excludes,))
+columns = cur.fetchall()
 
 # output directory
 
@@ -91,7 +98,18 @@ for schema in [s[0] for s in schemas]:
 	schematables = [table for table in tables if table[0] == schema]
 	for table in schematables:
 		tablename = table[1]
-		f.write('[' + tablename + '](' + schema + '_' + tablename + ')  \n')
+		f.write('[' + tablename + '](' + schema + '_' + tablename + '_table)  \n')
+
+		ft = open('output/' + schema + '_' + tablename + '_table.md', 'w')
+		ft.write('# ' + tablename + '\n')
+		ft.write('|Column|Type|\n')
+		ft.write('|:---|:---|\n')
+		tablecolumns = [column for column in columns if column[1] == tablename]
+		for column in tablecolumns:
+			columnname = column[2]
+			columntype = column[5]
+			ft.write('|' + columnname + '|' + columntype + '|\n')
+		ft.close()
 
 	# views
 
