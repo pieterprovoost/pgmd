@@ -1,4 +1,9 @@
-select r.routine_schema, r.routine_name, r.external_language, r.routine_body, r.routine_definition
-from information_schema.routines r
-where specific_schema not in ('pg_catalog', 'information_schema')
-order by r.routine_schema, r.routine_name;
+select n.nspname, p.proname, p.prosrc, p.proargmodes, p.proargnames, l.lanname, t.typname, t.typinput, t.typoutput
+from pg_catalog.pg_namespace n
+left join pg_catalog.pg_proc p
+on n.oid = p.pronamespace
+left join pg_catalog.pg_language l
+on p.prolang = l.oid
+left join pg_catalog.pg_type t
+on p.prorettype = t.oid
+where n.nspname not in %s;

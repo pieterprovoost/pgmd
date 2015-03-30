@@ -14,6 +14,11 @@ try:
 except:
 	print "Cannot connect to the database"
 
+# excluses
+
+#excludes = ','.join('\'' + item.strip() + '\'' for item in parser.get('schema', 'exclude').split(','))
+excludes = tuple(item.strip() for item in parser.get('schema', 'exclude').split(','))
+
 # scripts
 
 script_schemas = open("schemas.sql", "r").read()
@@ -24,25 +29,25 @@ script_routines = open("routines.sql", "r").read()
 # schemas
 
 cur = conn.cursor()
-cur.execute(script_schemas)
+cur.execute(script_schemas, (excludes,))
 schemas = cur.fetchall()
 
 # tables
 
 cur = conn.cursor()
-cur.execute(script_tables)
+cur.execute(script_tables, (excludes,))
 tables = cur.fetchall()
 
 # views
 
 cur = conn.cursor()
-cur.execute(script_views)
+cur.execute(script_views, (excludes,))
 views = cur.fetchall()
 
 # routines
 
 cur = conn.cursor()
-cur.execute(script_routines)
+cur.execute(script_routines, (excludes,))
 routines = cur.fetchall()
 
 # create output directory
@@ -89,8 +94,10 @@ for schema in [s[0] for s in schemas]:
 	schemaroutines = [routine for routine in routines if routine[0] == schema]
 	for routine in schemaroutines:
 		routinename = routine[1]
-		routinelang = routine[2]
-		f.write('[' + routinename + '](' + schema + '_' + routinename + ') ' + routinelang + '  \n')
+		routinelang = routine[5]
+		routinesrc = routine[2]
+		if routinename is not None:
+			f.write('[' + routinename + '](' + schema + '_' + routinename + ') ' + routinelang + '  \n')
 
 # close file
 
