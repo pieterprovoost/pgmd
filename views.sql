@@ -1,5 +1,4 @@
-select t.table_schema, t.table_name, t.table_type
-from information_schema.tables t
-where t.table_schema not in %s
-and t.table_type = 'VIEW'
-order by t.table_schema, t.table_name;
+select v.schemaname, v.viewname, v.definition
+from pg_catalog.pg_views v
+where v.schemaname not in %s
+order by v.schemaname, v.viewname;

@@ -15,6 +15,11 @@ try:
 except:
 	print "Cannot connect to the database"
 
+# reformat code
+
+def formatc(source):
+	return '    ' + '    '.join(source.splitlines(True))
+
 # excluses
 
 excludes = tuple(item.strip() for item in parser.get('schema', 'exclude').split(','))
@@ -94,7 +99,13 @@ for schema in [s[0] for s in schemas]:
 	schemaviews = [view for view in views if view[0] == schema]
 	for view in schemaviews:
 		viewname = view[1]
-		f.write('[' + viewname + '](' + schema + '_' + viewname + ')  \n')
+		viewdef = view[2]
+		f.write('[' + viewname + '](' + schema + '_' + viewname + '_view)  \n')
+
+		fr = open('output/' + schema + '_' + viewname + '_view.md', 'w')
+		fr.write('# ' + viewname + '\n')
+		fr.write(formatc(viewdef))
+		fr.close()
 
 	# routines
 
@@ -105,13 +116,11 @@ for schema in [s[0] for s in schemas]:
 		routinelang = routine[5]
 		routinesrc = routine[2]
 		if routinename is not None:
-			f.write('[' + routinename + '](' + schema + '_' + routinename + ') ' + routinelang + '  \n')
+			f.write('[' + routinename + '](' + schema + '_' + routinename + '_routine) ' + routinelang + '  \n')
 
-			fr = open('output/' + schema + '_' + routinename + '.md', 'w')
+			fr = open('output/' + schema + '_' + routinename + '_routine.md', 'w')
 			fr.write('# ' + routinename + '\n')
-			fr.write('```')
-			fr.write(routinesrc)
-			fr.write('```')
+			fr.write(formatc(routinesrc))
 			fr.close()
 
 # close index file
