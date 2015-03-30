@@ -16,7 +16,6 @@ except:
 
 # excluses
 
-#excludes = ','.join('\'' + item.strip() + '\'' for item in parser.get('schema', 'exclude').split(','))
 excludes = tuple(item.strip() for item in parser.get('schema', 'exclude').split(','))
 
 # scripts
@@ -99,6 +98,13 @@ for schema in [s[0] for s in schemas]:
 		if routinename is not None:
 			f.write('[' + routinename + '](' + schema + '_' + routinename + ') ' + routinelang + '  \n')
 
-# close file
+			fr = open('output/' + schema + '_' + routinename + '.md', 'w')
+			fr.write('# ' + routinename + '\n')
+			fr.write('```')
+			fr.write(routinesrc)
+			fr.write('```')
+			fr.close()
+
+# close index file
 
 f.close()
