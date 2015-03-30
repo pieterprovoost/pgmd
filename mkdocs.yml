@@ -1,0 +1,4 @@
+site_name: pgmd
+pages:
+theme: readthedocs
+docs_dir: output
