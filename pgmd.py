@@ -20,7 +20,7 @@ except:
 def formatc(source):
 	return '    ' + '    '.join(source.splitlines(True))
 
-# excluses
+# excludes
 
 excludes = tuple(item.strip() for item in parser.get('schema', 'exclude').split(','))
 
