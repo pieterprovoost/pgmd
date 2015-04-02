@@ -1,4 +1,4 @@
-select n.nspname, r.relname, f.relname, c.conname, c.contype, array_agg(m.column_name::text), array_agg(o.column_name::text)
+select n.nspname, r.relname, f.relname, c.conname, c.contype, array_agg(m.ordinal_position::smallint), array_agg(o.ordinal_position::smallint), array_agg(m.column_name::text), array_agg(o.column_name::text)
 from pg_catalog.pg_constraint c
 -- namespace
 left join pg_catalog.pg_namespace n
