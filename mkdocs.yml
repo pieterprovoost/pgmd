@@ -1,4 +1,3 @@
 site_name: pgmd
-pages:
-theme: readthedocs
 docs_dir: output
+theme_dir: theme

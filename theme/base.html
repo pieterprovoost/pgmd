@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="{{ base_url }}/github-markdown_edited.css">
+<link rel="stylesheet" href="{{ base_url }}/styles/default.css">
+<script src="{{ base_url }}/jquery.min.js"></script>
+<script src="{{ base_url }}/highlight.pack.js"></script>
+<style>
+.markdown-body {
+	min-width: 200px;
+	max-width: 790px;
+	margin: 0 auto;
+	padding: 30px;
+}
+pre {
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
+}
+</style>
+</head>
+<body>
+	<article class="markdown-body">
+	{{ content }}
+	</article>
+	<script>
+		$(document).ready(function() {
+			$('pre code').each(function(i, block) {
+				hljs.highlightBlock(block);
+			});
+		});
+	</script>
+</body>
+</html>
