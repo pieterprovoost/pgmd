@@ -145,9 +145,13 @@ for schema in [s[0] for s in schemas]:
 				if constraint[5] == 'f':
 					ftablename = constraint[3]
 					fschemaname = constraint[2]
-					ft.write(link(constraint[4], fschemaname + '_' + ftablename + '_table'))
-				if constraint[5] == 'p':
-					ft.write(constraint[4])
+					ft.write(link(constraint[4], fschemaname + '_' + ftablename + '_table') + ' ')
+				elif constraint[5] == 'p':
+					ft.write(constraint[4] + ' ')
+				elif constraint[5] == 'u':
+					ft.write(constraint[4] + ' ')
+				elif constraint[5] == 'c':
+					ft.write(constraint[4] + ' ')
 			ft.write('|\n')					
 
 		ft.close()
