@@ -36,6 +36,7 @@ script_tables = open("tables.sql", "r").read()
 script_views = open("views.sql", "r").read()
 script_routines = open("routines.sql", "r").read()
 script_columns = open("columns.sql", "r").read()
+script_constraints = open("constraints.sql", "r").read()
 
 # database
 
@@ -70,6 +71,12 @@ routines = cur.fetchall()
 cur = conn.cursor()
 cur.execute(script_columns, (excludes,))
 columns = cur.fetchall()
+
+# constraints
+
+cur = conn.cursor()
+cur.execute(script_constraints, (excludes,))
+constraints = cur.fetchall()
 
 # output directory
 
@@ -111,6 +118,8 @@ for schema in [s[0] for s in schemas]:
 	schematables = [table for table in tables if table[0] == schema]
 	for table in schematables:
 		tablename = table[1]
+		tableconstraints = [constraint for constraint in constraints if constraint[0] == schema and constraint[1] == tablename]
+
 		fs.write(link(tablename, schema + '_' + tablename + '_table') + '  \n')
 
 		# table file
@@ -121,13 +130,26 @@ for schema in [s[0] for s in schemas]:
 		ft.write('database: ' + link(dbname, '../') + '  \n')
 		ft.write('schema: ' + link(schema, schema) + '  \n\n')
 
-		ft.write('|Column|Type|\n')
-		ft.write('|:---|:---|\n')
-		tablecolumns = [column for column in columns if column[1] == tablename]
+		ft.write('|Column|Type|Constraint|\n')
+		ft.write('|:---|:---|:---|\n')
+		tablecolumns = [column for column in columns if column[0] == schema and column[1] == tablename]
 		for column in tablecolumns:
 			columnname = column[2]
 			columntype = column[5]
-			ft.write('|' + columnname + '|' + columntype + '|\n')
+			ft.write('|' + columnname)
+			ft.write('|' + columntype)
+
+			ft.write('|')
+			columnconstraints = [constraint for constraint in tableconstraints if columnname in constraint[8]]	
+			for constraint in columnconstraints:
+				if constraint[5] == 'f':
+					ftablename = constraint[3]
+					fschemaname = constraint[2]
+					ft.write(link(constraint[4], fschemaname + '_' + ftablename + '_table'))
+				if constraint[5] == 'p':
+					ft.write(constraint[4])
+			ft.write('|\n')					
+
 		ft.close()
 
 	# views
