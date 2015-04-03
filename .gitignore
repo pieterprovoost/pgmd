@@ -1,6 +1,6 @@
 pgmd.ini
 .DS_Store
-output
+docs
 info
 *.pyc
 site

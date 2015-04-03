@@ -1,5 +1,0 @@
-# mapmpa_with_geom
-database: [obis](../)  
-schema: [portal](portal)  
-
-    SELECT g.id, g.wdpaid, g.objectid, g.wdpa_pid, g.country, g.sub_loc, g.name, g.orig_name, g.desig, g.desig_eng, g.desig_type, g.iucn_cat, g.marine, g.rep_m_area, g.rep_area, g.status, g.status_yr, g.gov_type, g.mang_auth, g.int_crit, g.mang_plan, g.official, g.is_point, g.no_take, g.no_tk_area, g.metadata_i, g.action, g.geom, c.a AS surface_area_in_square_km, c.n, c.s, p.s AS number_of_phyla, (c.shannon)::real AS shannon, (c.simpson)::real AS simpson, (c.es)::real AS es, c.hill_1, c.hill_2, c.hill_inf AS hill_infinite, (c.d)::real AS number_of_records_per_square_km, i.redlist_species_count, e.extinct_species_count, s.number_of_days_visited AS number_of_1day_sampling_events, s.min_date AS date_of_earliest_record, s.max_date AS date_of_latest_record FROM (((((geo.mpa g LEFT JOIN calc.mapmpa c ON ((c.id = g.id))) LEFT JOIN calc.mapmpa_30_phylum p ON ((c.id = p.hex_id))) LEFT JOIN calc.mpa_sampling_days s ON ((s.mpa_id = c.id))) LEFT JOIN iucn2014.redlist_species_count_mpa i ON ((i.id = g.id))) LEFT JOIN calc.extinct_species_count_mpa e ON ((e.geom_id = g.id)));
