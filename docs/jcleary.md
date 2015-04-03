@@ -1,0 +1,10 @@
+# jcleary
+database: [obis](../)  
+## tables
+## views
+## routines
+[lngamma](jcleary_lngamma_routine)<span class="lang">plpgsql</span>  
+[do_calcthemall](jcleary_do_calcthemall_routine)<span class="lang">plpgsql</span>  
+[do_calc](jcleary_do_calc_routine)<span class="lang">plpgsql</span>  
+[overview](jcleary_overview_routine)<span class="lang">plpgsql</span>  
+[extract_regionaldata](jcleary_extract_regionaldata_routine)<span class="lang">plpgsql</span>  

@@ -80,20 +80,20 @@ constraints = cur.fetchall()
 
 # output directory
 
-if os.path.exists('output'):
-	for the_file in os.listdir('output'):
-	    file_path = os.path.join('output', the_file)
+if os.path.exists('docs'):
+	for the_file in os.listdir('docs'):
+	    file_path = os.path.join('docs', the_file)
 	    try:
 	        if os.path.isfile(file_path):
 	            os.unlink(file_path)
 	    except Exception, e:
 	        print e
 else:
-	os.makedirs('output')
+	os.makedirs('docs')
 
 # create index file
 
-f = open('output/index.md', 'w')
+f = open('docs/index.md', 'w')
 f.write('# ' + dbname + '\n')
 f.write('##  schemas\n')
 
@@ -108,7 +108,7 @@ for schema in [s[0] for s in schemas]:
 
 	# schema file
 
-	fs = open('output/' + schema + '.md', 'w')
+	fs = open('docs/' + schema + '.md', 'w')
 	fs.write('# ' + schema + '\n')
 	fs.write('database: ' + link(dbname, '../') + '  \n')
 
@@ -124,7 +124,7 @@ for schema in [s[0] for s in schemas]:
 
 		# table file
 
-		ft = open('output/' + schema + '_' + tablename + '_table.md', 'w')
+		ft = open('docs/' + schema + '_' + tablename + '_table.md', 'w')
 
 		ft.write('# ' + tablename + '\n')
 		ft.write('database: ' + link(dbname, '../') + '  \n')
@@ -167,7 +167,7 @@ for schema in [s[0] for s in schemas]:
 
 		# view file
 
-		fr = open('output/' + schema + '_' + viewname + '_view.md', 'w')
+		fr = open('docs/' + schema + '_' + viewname + '_view.md', 'w')
 		fr.write('# ' + viewname + '\n')
 		fr.write('database: ' + link(dbname, '../') + '  \n')
 		fr.write('schema: ' + link(schema, schema) + '  \n\n')
@@ -188,7 +188,7 @@ for schema in [s[0] for s in schemas]:
 
 			# routine file
 
-			fr = open('output/' + schema + '_' + routinename + '_routine.md', 'w')
+			fr = open('docs/' + schema + '_' + routinename + '_routine.md', 'w')
 			fr.write('# ' + routinename + '\n')
 			fr.write('database: ' + link(dbname, '../') + '  \n')
 			fr.write('schema: ' + link(schema, schema) + '  \n\n')

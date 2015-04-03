@@ -1,0 +1,51 @@
+# geo
+database: [obis](../)  
+## tables
+[cntry98](geo_cntry98_table)  
+[cs10d](geo_cs10d_table)  
+[cs10d_landlocked](geo_cs10d_landlocked_table)  
+[cs1d](geo_cs1d_table)  
+[cs1d_landlocked](geo_cs1d_landlocked_table)  
+[cs2d](geo_cs2d_table)  
+[cs30m](geo_cs30m_table)  
+[cs30m_landlocked](geo_cs30m_landlocked_table)  
+[cs5d](geo_cs5d_table)  
+[cs5d_landlocked](geo_cs5d_landlocked_table)  
+[cs6m](geo_cs6m_table)  
+[csdiv2](geo_csdiv2_table)  
+[csdiv5](geo_csdiv5_table)  
+[depthcontours](geo_depthcontours_table)  
+[eez_cs10d](geo_eez_cs10d_table)  
+[eez_cs1d](geo_eez_cs1d_table)  
+[eez_cs30m](geo_eez_cs30m_table)  
+[eez_cs5d](geo_eez_cs5d_table)  
+[eez_cs6m](geo_eez_cs6m_table)  
+[eezlr_cs1d](geo_eezlr_cs1d_table)  
+[eezlr_cs30m](geo_eezlr_cs30m_table)  
+[eezlr_cs6m](geo_eezlr_cs6m_table)  
+[eezlrs](geo_eezlrs_table)  
+[eezs](geo_eezs_table)  
+[fao](geo_fao_table)  
+[fao_complete](geo_fao_complete_table)  
+[fips_country](geo_fips_country_table)  
+[gadm](geo_gadm_table)  
+[iho](geo_iho_table)  
+[indianocean](geo_indianocean_table)  
+[lme](geo_lme_table)  
+[lme66](geo_lme66_table)  
+[lme66_offhore](geo_lme66_offhore_table)  
+[meow](geo_meow_table)  
+[mpa](geo_mpa_table)  
+[mwhs](geo_mwhs_table)  
+[nafo](geo_nafo_table)  
+[nafocc](geo_nafocc_table)  
+[oceanseas](geo_oceanseas_table)  
+[regions](geo_regions_table)  
+[worldcoast](geo_worldcoast_table)  
+## views
+## routines
+[get_wkt_from_csquare](geo_get_wkt_from_csquare_routine)<span class="lang">plpgsql</span>  
+[get_csquare](geo_get_csquare_routine)<span class="lang">plpgsql</span>  
+[generate_csxx_eezs](geo_generate_csxx_eezs_routine)<span class="lang">plpgsql</span>  
+[do_simplify_fao](geo_do_simplify_fao_routine)<span class="lang">plpgsql</span>  
+[dist](geo_dist_routine)<span class="lang">plpgsql</span>  
