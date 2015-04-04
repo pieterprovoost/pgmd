@@ -1,3 +1,4 @@
 site_name: pgmd
 docs_dir: docs
 theme_dir: theme
+markdown_extensions: [tables]

@@ -31,12 +31,13 @@ excludes = tuple(item.strip() for item in parser.get('schema', 'exclude').split(
 
 # scripts
 
-script_schemas = open("schemas.sql", "r").read()
-script_tables = open("tables.sql", "r").read()
-script_views = open("views.sql", "r").read()
-script_routines = open("routines.sql", "r").read()
-script_columns = open("columns.sql", "r").read()
-script_constraints = open("constraints.sql", "r").read()
+script_schemas = open("queries/schemas.sql", "r").read()
+script_tables = open("queries/tables.sql", "r").read()
+script_views = open("queries/views.sql", "r").read()
+script_routines = open("queries/routines.sql", "r").read()
+script_columns = open("queries/columns.sql", "r").read()
+script_constraints = open("queries/constraints.sql", "r").read()
+script_triggers = open("queries/triggers.sql", "r").read()
 
 # database
 
@@ -50,33 +51,33 @@ schemas = cur.fetchall()
 
 # tables
 
-cur = conn.cursor()
 cur.execute(script_tables, (excludes,))
 tables = cur.fetchall()
 
 # views
 
-cur = conn.cursor()
 cur.execute(script_views, (excludes,))
 views = cur.fetchall()
 
 # routines
 
-cur = conn.cursor()
 cur.execute(script_routines, (excludes,))
 routines = cur.fetchall()
 
 # columns
 
-cur = conn.cursor()
 cur.execute(script_columns, (excludes,))
 columns = cur.fetchall()
 
 # constraints
 
-cur = conn.cursor()
 cur.execute(script_constraints, (excludes,))
 constraints = cur.fetchall()
+
+# triggers
+
+cur.execute(script_triggers, (excludes,))
+triggers = cur.fetchall()
 
 # output directory
 
@@ -130,6 +131,8 @@ for schema in [s[0] for s in schemas]:
 		ft.write('database: ' + link(dbname, dbname) + '  \n')
 		ft.write('schema: ' + link(schema, dbname + '_' + schema) + '  \n\n')
 
+		# columns
+
 		ft.write('|Column|Type|Constraint|\n')
 		ft.write('|:---|:---|:---|\n')
 		tablecolumns = [column for column in columns if column[0] == schema and column[1] == tablename]
@@ -138,6 +141,8 @@ for schema in [s[0] for s in schemas]:
 			columntype = column[5]
 			ft.write('|' + columnname)
 			ft.write('|' + columntype)
+
+			# constraints
 
 			ft.write('|')
 			columnconstraints = [constraint for constraint in tableconstraints if columnname in constraint[8]]	
@@ -153,7 +158,30 @@ for schema in [s[0] for s in schemas]:
 				elif constraint[5] == 'c':
 					ft.write(constraint[4] + ' ')
 			ft.write('|\n')					
+		ft.write('\n')					
 
+		# triggers
+
+		ft.write('## triggers\n\n')
+		ft.write('|Name|Procedure|Constraint|Type|Event|Action|\n')
+		ft.write('|:---|:---|:---|:---|:---|:---|\n')
+		tabletriggers = [trigger for trigger in triggers if column[1] == schema and column[2] == tablename]
+		for trigger in tabletriggers:
+			triggername = column[0]
+			proc = column[4]
+			conschema = column[5]
+			conname = column[6]
+			ttype = column[7]
+			tevent = column[8]
+			taction = column[9]
+			ft.write('|' + triggername)
+			ft.write('|' + proc)
+			ft.write('|' + conname)
+			ft.write('|' + ttype)
+			ft.write('|' + tevent)
+			ft.write('|' + taction)
+			ft.write('|\n')
+		ft.write('\n')					
 		ft.close()
 
 	# views
