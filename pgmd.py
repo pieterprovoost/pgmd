@@ -93,14 +93,14 @@ else:
 
 # create index file
 
-f = open('docs/index.md', 'w')
+f = open('docs/' + dbname + '.md', 'w')
 f.write('# ' + dbname + '\n')
 f.write('##  schemas\n')
 
 # schema list
 
 for schema in [s[0] for s in schemas]:
-	f.write(link(schema, schema) + '  \n')
+	f.write(link(schema, dbname + '_' + schema) + '  \n')
 
 # schemas
 
@@ -108,9 +108,9 @@ for schema in [s[0] for s in schemas]:
 
 	# schema file
 
-	fs = open('docs/' + schema + '.md', 'w')
+	fs = open('docs/' + dbname + '_' + schema + '.md', 'w')
 	fs.write('# ' + schema + '\n')
-	fs.write('database: ' + link(dbname, '../') + '  \n')
+	fs.write('database: ' + link(dbname, dbname) + '  \n')
 
 	# tables
 
@@ -120,15 +120,15 @@ for schema in [s[0] for s in schemas]:
 		tablename = table[1]
 		tableconstraints = [constraint for constraint in constraints if constraint[0] == schema and constraint[1] == tablename]
 
-		fs.write(link(tablename, schema + '_' + tablename + '_table') + '  \n')
+		fs.write(link(tablename, dbname + '_' + schema + '_' + tablename) + '  \n')
 
 		# table file
 
-		ft = open('docs/' + schema + '_' + tablename + '_table.md', 'w')
+		ft = open('docs/' + dbname + '_' + schema + '_' + tablename + '.md', 'w')
 
 		ft.write('# ' + tablename + '\n')
-		ft.write('database: ' + link(dbname, '../') + '  \n')
-		ft.write('schema: ' + link(schema, schema) + '  \n\n')
+		ft.write('database: ' + link(dbname, dbname) + '  \n')
+		ft.write('schema: ' + link(schema, dbname + '_' + schema) + '  \n\n')
 
 		ft.write('|Column|Type|Constraint|\n')
 		ft.write('|:---|:---|:---|\n')
@@ -145,7 +145,7 @@ for schema in [s[0] for s in schemas]:
 				if constraint[5] == 'f':
 					ftablename = constraint[3]
 					fschemaname = constraint[2]
-					ft.write(link(constraint[4], fschemaname + '_' + ftablename + '_table') + ' ')
+					ft.write(link(constraint[4], dbname + '_' + fschemaname + '_' + ftablename) + ' ')
 				elif constraint[5] == 'p':
 					ft.write(constraint[4] + ' ')
 				elif constraint[5] == 'u':
@@ -163,14 +163,14 @@ for schema in [s[0] for s in schemas]:
 	for view in schemaviews:
 		viewname = view[1]
 		viewdef = view[2]
-		fs.write(link(viewname, schema + '_' + viewname + '_view') + '  \n')
+		fs.write(link(viewname, dbname + '_' + schema + '_' + viewname) + '  \n')
 
 		# view file
 
-		fr = open('docs/' + schema + '_' + viewname + '_view.md', 'w')
+		fr = open('docs/' + dbname + '_' + schema + '_' + viewname + '.md', 'w')
 		fr.write('# ' + viewname + '\n')
-		fr.write('database: ' + link(dbname, '../') + '  \n')
-		fr.write('schema: ' + link(schema, schema) + '  \n\n')
+		fr.write('database: ' + link(dbname, dbname) + '  \n')
+		fr.write('schema: ' + link(schema, dbname + '_' + schema) + '  \n\n')
 
 		fr.write(formatc(viewdef))
 		fr.close()
@@ -184,14 +184,14 @@ for schema in [s[0] for s in schemas]:
 		routinelang = routine[5]
 		routinesrc = routine[2]
 		if routinename is not None:
-			fs.write(link(routinename, schema + '_' + routinename + '_routine') + '<span class="lang">' + routinelang + '</span>  \n')
+			fs.write(link(routinename, dbname + '_' + schema + '_' + routinename) + '  \n')
 
 			# routine file
 
-			fr = open('docs/' + schema + '_' + routinename + '_routine.md', 'w')
+			fr = open('docs/' + dbname + '_' + schema + '_' + routinename + '.md', 'w')
 			fr.write('# ' + routinename + '\n')
-			fr.write('database: ' + link(dbname, '../') + '  \n')
-			fr.write('schema: ' + link(schema, schema) + '  \n\n')
+			fr.write('database: ' + link(dbname, dbname) + '  \n')
+			fr.write('schema: ' + link(schema, dbname + '_' + schema) + '  \n\n')
 
 			fr.write(formatc(routinesrc))
 			fr.close()
