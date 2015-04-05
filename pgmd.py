@@ -165,20 +165,20 @@ for schema in [s[0] for s in schemas]:
 		ft.write('## triggers\n\n')
 		ft.write('|Name|Procedure|Constraint|Type|Event|Action|\n')
 		ft.write('|:---|:---|:---|:---|:---|:---|\n')
-		tabletriggers = [trigger for trigger in triggers if column[1] == schema and column[2] == tablename]
+		tabletriggers = [trigger for trigger in triggers if trigger[1] == schema and trigger[2] == tablename]
 		for trigger in tabletriggers:
-			triggername = column[0]
-			proc = column[4]
-			conschema = column[5]
-			conname = column[6]
-			ttype = column[7]
-			tevent = column[8]
-			taction = column[9]
+			triggername = trigger[0]
+			proc = trigger[4]
+			conschema = trigger[5]
+			conname = trigger[6]
+			ttype = trigger[7]
+			tevent = trigger[8]
+			taction = trigger[9]
 			ft.write('|' + triggername)
 			ft.write('|' + proc)
-			ft.write('|' + conname)
+			ft.write('|' if conname is None else '|' + conname)
 			ft.write('|' + ttype)
-			ft.write('|' + tevent)
+			ft.write('|' + ', '.join(tevent))
 			ft.write('|' + taction)
 			ft.write('|\n')
 		ft.write('\n')					
